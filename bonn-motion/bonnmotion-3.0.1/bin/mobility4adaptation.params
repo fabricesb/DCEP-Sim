@@ -1,0 +1,13 @@
+model=RandomWaypoint
+ignore=3600.0
+randomSeed=113
+x=1500.0
+y=500.0
+duration=25800.0
+nn=50
+circular=false
+J=2D
+dim=4
+minspeed=0.5
+maxspeed=1.5
+maxpause=30.0

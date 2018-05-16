@@ -1,0 +1,45 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+# Add inputs and outputs from these tool invocations to the build variables 
+CC_SRCS += \
+../src/traffic-control/model/codel-queue-disc.cc \
+../src/traffic-control/model/fq-codel-queue-disc.cc \
+../src/traffic-control/model/packet-filter.cc \
+../src/traffic-control/model/pfifo-fast-queue-disc.cc \
+../src/traffic-control/model/pie-queue-disc.cc \
+../src/traffic-control/model/queue-disc.cc \
+../src/traffic-control/model/red-queue-disc.cc \
+../src/traffic-control/model/traffic-control-layer.cc 
+
+OBJS += \
+./src/traffic-control/model/codel-queue-disc.o \
+./src/traffic-control/model/fq-codel-queue-disc.o \
+./src/traffic-control/model/packet-filter.o \
+./src/traffic-control/model/pfifo-fast-queue-disc.o \
+./src/traffic-control/model/pie-queue-disc.o \
+./src/traffic-control/model/queue-disc.o \
+./src/traffic-control/model/red-queue-disc.o \
+./src/traffic-control/model/traffic-control-layer.o 
+
+CC_DEPS += \
+./src/traffic-control/model/codel-queue-disc.d \
+./src/traffic-control/model/fq-codel-queue-disc.d \
+./src/traffic-control/model/packet-filter.d \
+./src/traffic-control/model/pfifo-fast-queue-disc.d \
+./src/traffic-control/model/pie-queue-disc.d \
+./src/traffic-control/model/queue-disc.d \
+./src/traffic-control/model/red-queue-disc.d \
+./src/traffic-control/model/traffic-control-layer.d 
+
+
+# Each subdirectory must supply rules for building sources it contributes
+src/traffic-control/model/%.o: ../src/traffic-control/model/%.cc
+	@echo 'Building file: $<'
+	@echo 'Invoking: Cross G++ Compiler'
+	g++ -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
+

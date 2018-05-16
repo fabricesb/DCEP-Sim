@@ -1,0 +1,50 @@
+# -*- Mode: python; py-indent-offset: 4; indent-tabs-mode: nil; coding: utf-8; -*-
+
+# def options(opt):
+#     pass
+
+# def configure(conf):
+#     conf.check_nonfatal(header_name='stdint.h', define_name='HAVE_STDINT_H')
+
+def build(bld):
+    module = bld.create_ns3_module('dcep', ['core'])
+    module.source = [
+        'model/communication.cc',
+        'model/placement.cc',
+        'model/cep-engine.cc',
+        'model/dcep.cc',
+        'model/seq-ts-header.cc',
+        'model/dcep-header.cc',
+        'helper/dcep-helper.cc',
+        'helper/dcep-app-helper.cc',
+        'model/resource-manager.cc',
+        'model/dcep-state.cc'
+        ]
+
+    module_test = bld.create_ns3_module_test_library('dcep')
+    module_test.source = [
+        'test/dcep-test-suite.cc',
+        ]
+
+    headers = bld(features='ns3header')
+    headers.module = 'dcep'
+    headers.source = [
+        'model/communication.h',
+        'model/placement.h',
+        'model/cep-engine.h',
+        'model/dcep.h',
+        'model/common.h',
+        'model/seq-ts-header.h',
+        'model/message-types.h',
+        'model/dcep-header.h',
+        'helper/dcep-helper.h',
+        'helper/dcep-app-helper.h',
+        'model/resource-manager.h',
+        'model/dcep-state.h'
+        ]
+
+    if bld.env.ENABLE_EXAMPLES:
+        bld.recurse('examples')
+
+    # bld.ns3_python_bindings()
+
