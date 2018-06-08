@@ -1,7 +1,6 @@
 /* -*-  Mode: C++; c-file-style: "gnu"; indent-tabs-mode:nil; -*- */
 #include <cstring>
 #include "ns3/core-module.h"
-#include "ns3/dcep-helper.h"
 #include "ns3/network-module.h"
 #include "ns3/internet-module.h"
 #include "ns3/point-to-point-module.h"
@@ -32,7 +31,7 @@ NetDeviceContainer SetupWirelessNetwork (NodeContainer& n)
     wifiChannel.SetPropagationDelay ("ns3::ConstantSpeedPropagationDelayModel");
     wifiChannel.AddPropagationLoss ("ns3::FriisPropagationLossModel");
     wifiChannel.AddPropagationLoss ("ns3::RangePropagationLossModel",
-			"MaxRange", StringValue("250.0"));
+			"MaxRange", StringValue("410.0"));
     wifiPhy.SetChannel (wifiChannel.Create ());
     
     
@@ -52,8 +51,8 @@ int
 main (int argc, char *argv[])
 {
 
-    double distance = 200; 
-    uint32_t gridWidth = 2;
+    double distance = 1000; 
+    uint32_t gridWidth = 5;
     std::string placementPolicy ("centralized");
     uint32_t numberOfEvents = 1;
     
@@ -101,8 +100,14 @@ main (int argc, char *argv[])
 
     OlsrHelper olsr;
 
+    Ipv4StaticRoutingHelper staticRouting;
+
+    Ipv4ListRoutingHelper list;
+    list.Add (staticRouting, 0);
+    list.Add (olsr, 10);
+
     InternetStackHelper internet;
-    internet.SetRoutingHelper (olsr); 
+    internet.SetRoutingHelper (list); 
     internet.Install (n);
 
     Ipv4AddressHelper ipv4;

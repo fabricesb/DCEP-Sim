@@ -15,7 +15,6 @@ def build(bld):
         'model/dcep.cc',
         'model/seq-ts-header.cc',
         'model/dcep-header.cc',
-        'helper/dcep-helper.cc',
         'helper/dcep-app-helper.cc',
         'model/resource-manager.cc',
         'model/dcep-state.cc'
@@ -37,7 +36,6 @@ def build(bld):
         'model/seq-ts-header.h',
         'model/message-types.h',
         'model/dcep-header.h',
-        'helper/dcep-helper.h',
         'helper/dcep-app-helper.h',
         'model/resource-manager.h',
         'model/dcep-state.h'

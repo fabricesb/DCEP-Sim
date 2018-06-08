@@ -255,10 +255,11 @@ namespace ns3 {
     void 
     Placement::ForwardRemoteQuery(std::string eType)
     {
+        NS_LOG_INFO ("PLACEMENT: SENDING QUERY TO REMOTE NODE");
         
         Ptr<DcepState> dstate = GetObject<DcepState>();
         SerializedQuery *message= dstate->GetQuery(eType)->serialize();
-        
+        NS_LOG_INFO ("QUERY BEING SENT " << message->eventType);
         uint8_t *buffer = new uint8_t[message->size];
         memcpy(buffer, message, message->size);
 
@@ -268,6 +269,7 @@ namespace ns3 {
         dcepHeader.setContentSize(message->size);
 
         Ptr<Packet> p = Create<Packet> (buffer, message->size);
+        
         p->AddHeader (dcepHeader);
         GetObject<Dcep>()->SendPacket(p, dstate->GetNextHop(eType));
 
@@ -442,7 +444,6 @@ namespace ns3 {
             {
                 NS_LOG_INFO ("QUERY PLACED ON LOCAL NODE");
                dstate->SetOutDest(q->eventType, cm->GetLocalAddress());
-               dstate->SetCurrentProcessor(q->eventType, cm->GetLocalAddress());
             }
             
             p->ForwardQuery(q->eventType);

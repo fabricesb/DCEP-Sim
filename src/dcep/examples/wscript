@@ -3,3 +3,5 @@
 def build(bld):
     obj = bld.create_ns3_program('dcep-example', ['dcep', 'internet', 'olsr', 'network', 'core', 'applications', 'mobility', 'wifi'])
     obj.source = 'dcep-example.cc'
+    obj = bld.create_ns3_program('MANETSimulation', ['dcep', 'netanim', 'mobility', 'wifi', 'stats', 'internet','network', 'olsr','point-to-point'])
+    obj.source = 'MANETSimulation.cc'

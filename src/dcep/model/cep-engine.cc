@@ -693,9 +693,9 @@ NS_LOG_COMPONENT_DEFINE ("Detector");
         
         
         output_dest.Serialize(message->output_dest);
-        this->inputStream1_address.Serialize(message->inputStream1_address);
-        this->inputStream2_address.Serialize(message->inputStream2_address);
-        this->currentHost.Serialize(message->currentHost);
+        inputStream1_address.Serialize(message->inputStream1_address);
+        inputStream2_address.Serialize(message->inputStream2_address);
+        currentHost.Serialize(message->currentHost);
         message->actionType = this->actionType;
         message->eventType = this->eventType;
         message->q_id = this->id;
@@ -715,22 +715,33 @@ NS_LOG_COMPONENT_DEFINE ("Detector");
     void
     Query::deserialize(uint8_t *buffer, uint32_t size)
     {
+        NS_LOG_INFO ("1");
        SerializedQuery *message = new SerializedQuery();
         memcpy(message, buffer, size);
+        NS_LOG_INFO("DESERIALIZED MESSAGE " << message->eventType);
         this->actionType = message->actionType;
+        NS_LOG_INFO ("1");
         this->id = message->q_id;
+        NS_LOG_INFO ("1");
         this->isFinal = message->isFinal;
+        NS_LOG_INFO ("1");
         this->isAtomic = message->isAtomic;
+        NS_LOG_INFO ("1");
         this->eventType = message->eventType;
+        NS_LOG_INFO ("1");
+        
         this->output_dest = Ipv4Address::Deserialize(message->output_dest);
         this->inputStream1_address = Ipv4Address::Deserialize(message->inputStream1_address);
         this->inputStream2_address = Ipv4Address::Deserialize(message->inputStream2_address);
         this->currentHost = Ipv4Address::Deserialize(message->currentHost);
+        NS_LOG_INFO ("1");
         this->inevent1 = message->inevent1;
         this->inevent2 = message->inevent2;
         this->parent_output = message->parent_output;
+        NS_LOG_INFO ("1");
         this->op = message->op;
         this->assigned = message->assigned;
+        NS_LOG_INFO ("1");
     }
     
 }

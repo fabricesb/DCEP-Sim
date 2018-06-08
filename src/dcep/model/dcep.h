@@ -57,7 +57,6 @@ private:
     
         virtual void StartApplication (void);
         virtual void StopApplication (void);
-        void sendRemoteMsg(const uint8_t *data, uint32_t size, Ipv4Address dst, uint16_t msg_type);
 
         bool datasource_node;
         bool sink_node;

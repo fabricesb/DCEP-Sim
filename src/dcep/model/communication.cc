@@ -42,6 +42,7 @@
 #include <cstdio>
 #include <ctime>
 #include "ns3/abort.h"
+#include "dcep-header.h"
 
 namespace ns3 {
 
@@ -121,7 +122,6 @@ NS_LOG_COMPONENT_DEFINE("Communication");
        
         m_socket->SetRecvCallback (MakeCallback (&Communication::HandleRead, this));
         
-        
     }
     
     
@@ -133,18 +133,13 @@ NS_LOG_COMPONENT_DEFINE("Communication");
         Ptr<Dcep> dcep = GetObject<Dcep>();
         
         Address from;
-        
         while ((packet = socket->RecvFrom (from)))
           {
             if (packet->GetSize () > 0)
               {
-                NS_LOG_INFO("RECEIVED PACKET SIZE " << packet->GetSize());
-                /* headers must be removed first before fetching the data*/
                 SeqTsHeader seqTs;
                 DcepHeader dcepHeader;
                 Ipv4Header ipv4;
-                pcopy = packet;
-             //   
                 
                 packet->RemoveHeader(seqTs);
                     
@@ -170,38 +165,37 @@ NS_LOG_COMPONENT_DEFINE("Communication");
                                );
                       
                        uint8_t *buffer = new uint8_t[dcepHeader.GetContentSize()];
-                       packet->CopyData(buffer, packet->GetSize ());
+                       packet->CopyData(buffer, dcepHeader.GetContentSize());
                        dcep->rcvRemoteMsg(buffer,dcepHeader.GetContentSize(),dcepHeader.GetContentType(), delay.GetMilliSeconds());
                   
                 }
                }   
           }
     }
-    
-    void 
-    Communication::ScheduleSend(Ipv4Address peerAddress, const uint8_t *data,
-            uint32_t size, uint16_t msg_type)
-    {
-        DcepHeader dcepHeader;
-        dcepHeader.SetContentType(msg_type);
-        dcepHeader.setContentSize(size);
-        
-        Ptr<Packet> p = Create<Packet> (data, size);
-        
-        p->AddHeader (dcepHeader);
-        ScheduleSend(p, peerAddress);
-        
-    }
-    
+//    
+//    void 
+//    Communication::ScheduleSend(Ipv4Address peerAddress, const uint8_t *data,
+//            uint32_t size, uint16_t msg_type)
+//    {
+//        DcepHeader dcepHeader;
+//        dcepHeader.SetContentType(msg_type);
+//        dcepHeader.setContentSize(size);
+//        
+//        Ptr<Packet> p = Create<Packet> (data, size);
+//        
+//        p->AddHeader (dcepHeader);
+//        ScheduleSend(p, peerAddress);
+//        
+//    }
+//    
     
     void Communication::ScheduleSend(Ptr<Packet> p, Ipv4Address addr)
     {
         Ipv4Header ipv4;
         ipv4.SetDestination(addr);
         ipv4.SetProtocol(123);
-        
         p->AddHeader(ipv4);
-        NS_LOG_INFO("about to send data size " << p->GetSize());
+        
         Ptr<ns3::QueueItem> p_item = Create<ns3::QueueItem>(p);
         m_sendQueue->Enqueue(p_item);
         
@@ -212,31 +206,22 @@ NS_LOG_COMPONENT_DEFINE("Communication");
     void
     Communication::send()
     {
-        /*we send a copy of the packet item*/
-        NS_LOG_INFO ("COMMUNICATION @ " << host_address << " number sent " << m_sent);
         if(m_sendQueue->GetNPackets() > 0)
         {
             Ptr<Packet> p = m_sendQueue->Peek()->GetPacket(); 
+            DcepHeader dcepHeader;
+            Ipv4Header ipv4;
+            p->RemoveHeader(ipv4);
+            p->RemoveHeader(dcepHeader);
+            
             Ptr<Packet> pp = p->Copy();
 
             SeqTsHeader sth;
             sth.SetSeq(m_sent);
 
-            pp->AddHeader(sth);
-
-            DcepHeader dcepHeader;
-            Ipv4Header ipv4;
-
-            pp->RemoveHeader(sth);
-            pp->RemoveHeader(ipv4);
-            pp->RemoveHeader(dcepHeader);
-
             pp->AddHeader(dcepHeader);
             pp->AddHeader(ipv4);
             pp->AddHeader(sth);
-
-            NS_LOG_INFO (" " << sth.GetTs().GetMicroSeconds() << " " << ipv4.GetDestination() << " " << dcepHeader.GetContentType());
-
             bool itemSent = false;
 
             m_socket->Connect (InetSocketAddress (Ipv4Address::ConvertFrom(ipv4.GetDestination()), m_port));
@@ -263,15 +248,11 @@ NS_LOG_COMPONENT_DEFINE("Communication");
                 m_sendQueue->Enqueue(item);
             }
 
-            if(!m_sendQueue->IsEmpty())//only schedule when there are more packet to send
+            if(m_sendQueue->GetNPackets() != 0)//only schedule when there are more packet to send
             {
                 NS_LOG_INFO ("SCHEDULING TRANSMISSION");
                 Simulator::Schedule (Seconds(1), &Communication::send, this);
             }
-        }
-        else
-        {
-            NS_LOG_INFO ("SOMETHING IS WRONG SEND SHOULD BE ALWAYS CALLED WHEN THERE IS SOMETHING TO SEND");
         }
     }
     

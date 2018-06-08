@@ -64,7 +64,7 @@ class Communication : public Object
    */
         void HandleRead (Ptr<Socket> socket);
 
-        void ScheduleSend(Ipv4Address peerAddress, const uint8_t *, uint32_t size, uint16_t msg_type);
+       // void ScheduleSend(Ipv4Address peerAddress, const uint8_t *, uint32_t size, uint16_t msg_type);
         void ScheduleSend(Ptr<Packet> p, Ipv4Address addr);
         Ipv4Address GetLocalAddress();  
         Ipv4Address GetSinkAddress();

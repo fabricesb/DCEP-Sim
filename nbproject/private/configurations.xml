@@ -338,7 +338,6 @@
           <in>dca-txop.h</in>
           <in>dcep-app-helper.h</in>
           <in>dcep-header.h</in>
-          <in>dcep-helper.h</in>
           <in>dcep-module.h</in>
           <in>dcep-state.h</in>
           <in>dcep.h</in>
@@ -1449,12 +1448,6 @@
         <df name="utils">
         </df>
       </df>
-      <df name="debs-evaluation">
-        <df name="results">
-          <df name="results1">
-          </df>
-        </df>
-      </df>
       <df name="doc">
         <df name="manual">
           <df name="figures">
@@ -1799,8 +1792,6 @@
         <in>textbubble.cpp</in>
         <in>textbubble.h</in>
         <in>timevalue.h</in>
-      </df>
-      <df name="omnetOutput">
       </df>
       <df name="Release">
         <df name="bindings">
@@ -2248,20 +2239,6 @@
           </df>
         </df>
         <df name="utils">
-        </df>
-      </df>
-      <df name="run-folder">
-        <df name="10">
-        </df>
-        <df name="12">
-        </df>
-        <df name="14">
-        </df>
-        <df name="4">
-        </df>
-        <df name="6">
-        </df>
-        <df name="8">
         </df>
       </df>
       <df name="scratch">
@@ -2784,13 +2761,12 @@
           <df name="doc">
           </df>
           <df name="examples">
+            <in>MANETSimulation.cc</in>
             <in>dcep-example.cc</in>
           </df>
           <df name="helper">
             <in>dcep-app-helper.cc</in>
             <in>dcep-app-helper.h</in>
-            <in>dcep-helper.cc</in>
-            <in>dcep-helper.h</in>
           </df>
           <df name="model">
             <in>cep-engine.cc</in>

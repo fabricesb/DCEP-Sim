@@ -102,7 +102,7 @@ NS_LOG_COMPONENT_DEFINE ("Dcep");
      
     Dcep::Dcep()
     {
-        
+        this->m_cepPort = 100;
     }
     
     uint16_t
@@ -117,7 +117,7 @@ NS_LOG_COMPONENT_DEFINE ("Dcep");
         
         
         NS_LOG_FUNCTION (this);
-        NS_LOG_INFO("starting dcep application");
+        
         
         
         Ptr<UniformRandomVariable> x = CreateObject<UniformRandomVariable> ();
@@ -150,10 +150,11 @@ NS_LOG_COMPONENT_DEFINE ("Dcep");
         c_communication->SetAttribute("SinkAddress", Ipv4AddressValue (m_sinkAddress));
         c_communication->Configure();
         
+        NS_LOG_INFO("STARTED DCEP APPLICATION AT NODE " << c_communication->GetLocalAddress());
         
         if(sink_node)
         {
-            Simulator::Schedule (Seconds (150.0), &Sink::BuildAndSendQuery, sink);
+            Simulator::Schedule (Seconds (20.0), &Sink::BuildAndSendQuery, sink);
         }
           
     }
@@ -173,9 +174,7 @@ NS_LOG_COMPONENT_DEFINE ("Dcep");
     void
     Dcep::StopApplication (void)
     {
-        
         NS_LOG_FUNCTION (this);
-       
     }
     
     void
@@ -218,14 +217,6 @@ NS_LOG_COMPONENT_DEFINE ("Dcep");
     }
     
     void
-    Dcep::sendRemoteMsg(const uint8_t *data, uint32_t size, Ipv4Address dst, uint16_t msg_type)
-    {
-        NS_LOG_INFO ("DCEP: SENDING REMOTE MSG");
-        Ptr<Communication> c_communication = GetObject<Communication>();    
-        c_communication->ScheduleSend(dst,data,size,msg_type);
-    }
-    
-    void
     Dcep::rcvRemoteMsg(uint8_t* data, uint32_t size, uint16_t msg_type, uint64_t delay)
     {
         
@@ -249,6 +240,7 @@ NS_LOG_COMPONENT_DEFINE ("Dcep");
                 
             case QUERY: /* handle query*/
             {
+                NS_LOG_INFO ("DCEP: RECEIVED QUERY MESSAGE");
                 Ptr<Query> q = CreateObject<Query>();
                 q->deserialize(data, size);
                 p->RecvQuery(q);
