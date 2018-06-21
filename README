@@ -1,3 +1,16 @@
+This repository is for DCEP-Sim: an Open Simulation Framework for Distributed Complex Event Processing 
+built on top of ns-3 descrete network simulation platform. 
+This framework was created as part of my ongoing research work on placement assignment and adaptation of 
+CEP queries in mobile ad hoc networks. 
+
+DCEP-Sim module can be found in ./src/dcep/
+More information about DCEP-Sim can be found by following these links: 
+research paper: https://dl.acm.org/citation.cfm?id=3093919
+tutorial: https://dl.acm.org/citation.cfm?id=3219501
+
+
+
+
 
     The Network Simulator, Version 3
     --------------------------------
