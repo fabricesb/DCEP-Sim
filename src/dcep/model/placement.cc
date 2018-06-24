@@ -443,7 +443,10 @@ namespace ns3 {
             if(dstate->GetNextHop(q->eventType).IsEqual(cm->GetLocalAddress()))
             {
                 NS_LOG_INFO ("QUERY PLACED ON LOCAL NODE");
-               dstate->SetOutDest(q->eventType, cm->GetLocalAddress());
+                if (!q->isAtomic) 
+                    dstate->SetOutDest(q->eventType, cm->GetLocalAddress());
+                else
+                    dstate->SetOutDest(q->eventType, cm->GetSinkAddress());
             }
             
             p->ForwardQuery(q->eventType);
