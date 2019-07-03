@@ -8,7 +8,9 @@ More information about DCEP-Sim can be found by following these links:
 research paper: https://dl.acm.org/citation.cfm?id=3093919
 tutorial: https://dl.acm.org/citation.cfm?id=3219501
 
-
+A modified version of DCEP-Sim that enables simulations to include execution times of nodes 
+can be found in https://github.com/espv/ns-3-extended-with-execution-environment.
+A related paper is published in https://dl.acm.org/citation.cfm?id=3332508​.
 
 
 
